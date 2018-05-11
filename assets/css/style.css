@@ -1,0 +1,15 @@
+.button-container{
+    margin: 1em auto;
+}
+
+.button-topic{
+    margin-right: 0.6em;
+}
+
+.item{
+    float: left;
+    margin-right: 0.8em;
+}
+#add-topic{
+    margin-top: 0.3em;
+}
