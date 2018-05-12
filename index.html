@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="container customcontainer">
+    <div class="container-fluid customcontainer">
 
         <div class="row">
             <div class="col-md-12 button-container">
@@ -23,16 +23,17 @@
         </div>
 
         <div class="row">
-            <div class="col-md-10 img-content">
 
-            </div>
+            <div class="col-md-9 img-content"></div>
 
-            <div class="col-md-2 add-form">
+            <div class="col-md-3 order-first order-md-3 add-form">
                 <form>
-                   <h5> Add A New Topic</h5>
-                    <input type="text" name="newtopic" id ="newtopic">
+                    <label for="newtopic">
+                        <h5>Add A New Topic:</h5>
+                    </label>
+                    <input type="text" name="newtopic" id="newtopic">
                     <br>
-                    <input type="submit" value="Submit" class="btn btn-info" id = "add-topic">
+                    <input type="submit" value="Submit" class="btn btn-info" id="add-topic">
                 </form>
             </div>
 

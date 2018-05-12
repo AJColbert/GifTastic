@@ -1,4 +1,6 @@
-var topics = ["Gum", "Bubbles"]
+var topics = ["Felix the cat", "Bugs Bunny", "Elmer Fudd", "Popeye", "Huckleberry Hound", 
+"Marvin the Martian", "Tom and Jerry", "Foghorn Leghorn", "Daffy Duck",
+"Casper", "Tasmanian Devil", "Chilly Willy", "Wile E. Coyote", "Goofy", "Tweety Bird", "Porky Pig"]
 
 
 var renderButtons = function (array)
@@ -30,7 +32,9 @@ var GetTopic = function ()
         method: "GET"
     }).then(function (response)
     {
+        //Confirm asking add to list if true don't empty if false empty
         $(".img-content").empty();
+
         var results = response.data;
 
         for (var i = 0; i < results.length; i++)
@@ -39,10 +43,15 @@ var GetTopic = function ()
             var animated = results[i].images.fixed_height.url
 
             var gifDiv = $("<div class='item'>");
-
             var rating = results[i].rating;
+            var title = results[i].title;
 
             var p = $("<p>").text("Rating: " + rating);
+            if(title === "")
+            {
+                title = "Unknown"
+            }
+            var t = $("<p>").text("Title: " + title);
 
             var topicImage = $("<img>");
             topicImage.attr("src", still);
@@ -51,14 +60,38 @@ var GetTopic = function ()
             topicImage.attr("data-state", "still");
             topicImage.attr("class", "gif");
 
+            var downloadImage = $("<img>");
+            downloadImage.attr("src", "assets/images/download.png");
+            downloadImage.attr("class", "download-img");
+
+            gifDiv.append(t);
             gifDiv.append(p);
+            gifDiv.append(downloadImage);
             gifDiv.prepend(topicImage);
+
+
 
             $(".img-content").prepend(gifDiv);
         }
     });
 
 }
+
+$(".img-content").on("click", ".gif", function ()
+{
+    var state = $(this).attr("data-state");
+    console.log(state);
+    if (state === "still")
+    {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate")
+    }
+    else if (state === "animate")
+    {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still")
+    }
+});
 
 $("#add-topic").on("click", function (event)
 {
