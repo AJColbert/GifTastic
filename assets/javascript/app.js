@@ -35,7 +35,7 @@ var GetTopic = function ()
         $(".img-content").empty();
 console.log();
         var results = response.data;
-
+console.log(response)
         for (var i = 0; i < results.length; i++)
         {
             var still = results[i].images.fixed_height_still.url
@@ -47,7 +47,7 @@ console.log();
 
             //Gif Card Body Div
             var gifBodyDiv = $("<div class='card-body'>");
-
+            
             //Add Rating
             var p = $("<p>").text("Rating: " + rating);
             if(title === "")
@@ -135,11 +135,24 @@ $(".img-content").on("click", ".fav-img", function (){
     x.find(".fav-img").attr("class", "delete-img");
     x.appendTo($(".fav-content"));
     
-    
+});
 
-    
-
-
+$(document).on("click", ".download-img", function (){
+    var xhr = new XMLHttpRequest();
+    var gif = $(this).parent().siblings();
+    xhr.open("GET", gif.attr("data-animate"), true);
+    xhr.responseType = "blob";
+    xhr.onload = function(){
+        var urlCreator = window.URL;
+        var imageUrl = urlCreator.createObjectURL(this.response);
+        var tag = document.createElement('a');
+        tag.download = "giphy.gif";
+        tag.href = imageUrl;
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+    }
+    xhr.send();
 });
 
 $(".fav-content").on("click", ".delete-img", function (){
@@ -149,7 +162,6 @@ $(".fav-content").on("click", ".delete-img", function (){
     console.log(card);
 
 });
-
 
 
 //Inital Button Render
