@@ -1,11 +1,10 @@
-var topics = ["Felix the cat", "Bugs Bunny", "Elmer Fudd", "Popeye", "Huckleberry Hound", 
-"Marvin the Martian", "Tom and Jerry", "Foghorn Leghorn", "Daffy Duck",
-"Casper", "Tasmanian Devil", "Chilly Willy", "Wile E. Coyote", "Goofy", "Tweety Bird", "Porky Pig"]
+var topics = ["Felix the cat", "Bugs Bunny", "Elmer Fudd", "Popeye", "Huckleberry Hound",
+    "Marvin the Martian", "Tom and Jerry", "Foghorn Leghorn", "Daffy Duck",
+    "Casper", "Tasmanian Devil", "Chilly Willy", "Wile E. Coyote", "Goofy", "Tweety Bird", "Porky Pig"]
 
-
+//Render all buttons from Array Topics
 var renderButtons = function (array)
 {
-    
     $(".button-container").empty();
     for (var i = 0; i < array.length; i++)
     {
@@ -14,7 +13,6 @@ var renderButtons = function (array)
         btn.attr("data-name", array[i])
         btn.text(array[i]);
         $(".button-container").append(btn);
-
     }
 }
 
@@ -33,24 +31,24 @@ var GetTopic = function ()
     {
         //Confirm asking add to list if true don't empty if false empty
         $(".img-content").empty();
-console.log();
+        //Save Response Data Object reference into new variable
         var results = response.data;
-console.log(response)
+        //Render Card with all content
         for (var i = 0; i < results.length; i++)
         {
             var still = results[i].images.fixed_height_still.url
             var animated = results[i].images.fixed_height.url
-
+            //Card Div
             var gifDiv = $("<div class='item card card-default'>");
             var rating = results[i].rating;
             var title = results[i].title;
 
             //Gif Card Body Div
             var gifBodyDiv = $("<div class='card-body'>");
-            
+
             //Add Rating
             var p = $("<p>").text("Rating: " + rating);
-            if(title === "")
+            if (title === "")
             {
                 title = "Unknown"
             }
@@ -70,10 +68,10 @@ console.log(response)
             downloadImage.attr("src", "assets/images/download.png");
             downloadImage.attr("class", "download-img");
 
-             //Add Favourite image
-             var favImage = $("<img>");
-             favImage.attr("src", "assets/images/add-button.png");
-             favImage.attr("class", "fav-img");
+            //Add Favourite image
+            var favImage = $("<img>");
+            favImage.attr("src", "assets/images/add-button.png");
+            favImage.attr("class", "fav-img");
 
             //Add to Card Body 
             gifBodyDiv.append(t);
@@ -89,9 +87,9 @@ console.log(response)
             $(".img-content").prepend(gifDiv);
         }
     });
-
 }
 
+// Pause or UnPause Gif by checking data-state attribute and changing source
 $(".img-content").on("click", ".gif", function ()
 {
     var state = $(this).attr("data-state");
@@ -122,27 +120,29 @@ $("#add-topic").on("click", function (event)
     renderButtons(topics);
 
 });
-
+//Onclick for Tpic Button
 $(document).on("click", ".button-topic", GetTopic);
 
-$(".img-content").on("click", ".fav-img", function (){
-    console.log("fav click");
+//Clone Card and contents and add it to favourites section
+$(".img-content").on("click", ".fav-img", function ()
+{
     var card = $(this).closest(".card");
-    console.log(card);
     var x = card.clone();
-    
+
     x.find(".fav-img").attr("src", "assets/images/minus-button.png");
     x.find(".fav-img").attr("class", "delete-img");
     x.appendTo($(".fav-content"));
-    
 });
 
-$(document).on("click", ".download-img", function (){
+//Download Image On Click
+$(document).on("click", ".download-img", function ()
+{
     var xhr = new XMLHttpRequest();
-    var gif = $(this).parent().siblings();
+    var gif = $(this).parent().siblings();//Identifies gif to look at
     xhr.open("GET", gif.attr("data-animate"), true);
     xhr.responseType = "blob";
-    xhr.onload = function(){
+    xhr.onload = function ()
+    {
         var urlCreator = window.URL;
         var imageUrl = urlCreator.createObjectURL(this.response);
         var tag = document.createElement('a');
@@ -155,12 +155,10 @@ $(document).on("click", ".download-img", function (){
     xhr.send();
 });
 
-$(".fav-content").on("click", ".delete-img", function (){
-    console.log("remove click");
+$(".fav-content").on("click", ".delete-img", function ()
+{
     var card = $(this).closest(".card")
     card.remove();
-    console.log(card);
-
 });
 
 
